@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+    <head>
+        <title>Watashitachi wa koko de seizan no uta wo utau~~~ anata e to</title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    </head>
+    <body>
+        <div>
+            <p style="font-size:30px" align="center">TABLE OF CONTENT</p>
+            <table class="table table-striped">
+                <thead>
+                    <tr>
+                        <td>ID</td>
+                        <td>name</td>
+                        <td>phoneNumber</td>
+                    </tr>
+                </thead>
+                <tbody>
+                    <th:block th:each="person : ${listPerson}">
+                        <tr>
+                            <td>${person.id}</td>
+                            <td>${person.id}</td>
+                            <td>
+                                <ul style="list-style-type: none;" th:each="phoneNumber : ${person.listPhoneNumber}">
+                                    <li>${phoneNumber.number}</li>
+                                </ul>
+                            </td>
+                        </tr>
+                    </th:block>
+                </tbody>
+            </table>
+        </div>
+    </body>
+</html>

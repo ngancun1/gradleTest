@@ -1,6 +1,8 @@
 package com.example.gradleTest.model;
 
-import java.util.ArrayList;
+import java.io.Serializable;
+import java.util.List;
+
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -12,7 +14,8 @@ import javax.persistence.Table;
 
 @Entity
 @Table(name="person")
-public class Person {
+public class Person implements Serializable{
+	
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "id")
@@ -21,8 +24,8 @@ public class Person {
 	@Column(name = "name")
 	private String name;
 	
-	@OneToMany(mappedBy = "phoneNumber")
-	private ArrayList<Long> phoneNumber;
+	@OneToMany(mappedBy = "person")
+	private List<PhoneNumber> phoneNumber;
 
 	public Person() {
 		super();
@@ -40,9 +43,15 @@ public class Person {
 		this.name = name;
 	}
 
-	public ArrayList<Long> getPhoneNumber() {
+	public List<PhoneNumber> getPhoneNumber() {
 		return phoneNumber;
 	}
-	
+
+	public void setPhoneNumber(List<PhoneNumber> phoneNumber) {
+		this.phoneNumber = phoneNumber;
+	}
+
+
+
 	
 }

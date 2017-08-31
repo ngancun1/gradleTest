@@ -27,6 +27,6 @@ dependencies {
 	compile('org.springframework.boot:spring-boot-starter-web')
 	compile('org.springframework.boot:spring-boot-starter-thymeleaf')
 	//runtime('mysql:mysql-connector-java')
-	compile('mysql:mysql-connector-java:5.1.16')
+	compile('mysql:mysql-connector-java:5.1.31')
 	testCompile('org.springframework.boot:spring-boot-starter-test')
 }

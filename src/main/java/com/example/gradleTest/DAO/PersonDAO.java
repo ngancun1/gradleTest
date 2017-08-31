@@ -1,6 +1,7 @@
 package com.example.gradleTest.DAO;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import org.hibernate.Query;
 import org.hibernate.Session;
@@ -9,19 +10,34 @@ import org.springframework.stereotype.Repository;
 
 import com.example.gradleTest.Utils.HibernateUtil;
 import com.example.gradleTest.model.Person;
+import com.example.gradleTest.model.PhoneNumber;
 
 @Repository
 public class PersonDAO {
+	@SuppressWarnings("unchecked")
 	public ArrayList<Person> getAll(){
 		Session session = HibernateUtil.getSessionFactory().openSession();
+		System.out.println("step 1");
 		Transaction transaction = null;
+		System.out.println("step 2");
 		try {
 			transaction = session.beginTransaction();
+			System.out.println("step 3");
 			Query query = session.createQuery("from person");
-			ArrayList<Person> listPerson = (ArrayList<Person>) query.list();
-			return listPerson;
+			System.out.println("step 4");
+			ArrayList<Person> tmp = (ArrayList<Person>) query.list();
+			System.out.println("step 5");
+//			for(int i = 0;i < tmp.size();i++) {
+//				Query query1 = session.createQuery("from phone_number where person_id=:person_id");
+//				query1.setParameter("person_id", tmp.get(i).getId());
+//				List<PhoneNumber> listPhoneNumber = (List<PhoneNumber>) query1.list();
+//				tmp.get(i).setPhoneNumber(listPhoneNumber);
+//			}
+			return tmp;
 		}catch(Exception ex) {
-			transaction.rollback();
+			if(transaction != null) {
+				transaction.rollback();
+			}
 		}finally {
 			session.close();
 		}
@@ -38,7 +54,9 @@ public class PersonDAO {
 			session.save(person);
 			return true;
 		}catch(Exception ex) {
-			transaction.rollback();
+			if(transaction != null) {
+				transaction.rollback();
+			}
 		}finally {
 			session.close();
 		}
@@ -57,7 +75,9 @@ public class PersonDAO {
 				transaction.commit();
 				return true;
 			}catch(Exception ex) {
-				transaction.rollback();
+				if(transaction != null) {
+					transaction.rollback();
+				}
 			}finally {
 				session.close();
 			}
@@ -78,7 +98,9 @@ public class PersonDAO {
 				transaction.commit();
 				return true;
 			}catch(Exception ex) {
-				transaction.rollback();
+				if(transaction != null) {
+					transaction.rollback();
+				}
 			}finally {
 				session.close();
 			}
@@ -96,7 +118,9 @@ public class PersonDAO {
 			Person person = (Person) query.uniqueResult();
 			return person;
 		}catch(Exception ex) {
-			transaction.rollback();
+			if(transaction != null) {
+				transaction.rollback();
+			}
 		}finally {
 			session.close();
 		}

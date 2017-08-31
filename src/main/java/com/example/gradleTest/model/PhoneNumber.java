@@ -1,5 +1,7 @@
 package com.example.gradleTest.model;
 
+import java.io.Serializable;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -11,18 +13,19 @@ import javax.persistence.Table;
 
 @Entity
 @Table(name="phone_number")
-public class PhoneNumber {
+public class PhoneNumber implements Serializable{
+	
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "id")
 	private long id;
 	
-	@Column
+	@Column(name = "number")
 	private String number;
 	
 	@ManyToOne
 	@JoinColumn(name = "person_id")
-	private long person_id;
+	private Person person;
 
 	public PhoneNumber() {
 		super();
@@ -42,10 +45,6 @@ public class PhoneNumber {
 
 	public void setNumber(String number) {
 		this.number = number;
-	}
-
-	public long getPerson_id() {
-		return person_id;
 	}
 	
 	

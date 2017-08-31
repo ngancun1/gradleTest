@@ -1,36 +1,56 @@
 <!DOCTYPE html>
-<html>
+<html xmlns:th="http://www.thymeleaf.org">
 <head>
 <meta charset="ISO-8859-1">
 <title>Insert title here</title>
+ 	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"/>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    <link rel="stylesheet" type="text/css" href="/static/CSS/EditForm.css"/>
 </head>
 <body>
-<!-- <div class="modal fade" id="#Edit" role="dialog">
-        	<div class="modal-dialog">
-        		<div class="modal-content">
-        			<div class="modal-header">
-        				<button type="button" class="close" data-dismiss="modal">&times;</button>
-        				<h4 class="modal-title">Edit Person</h4>
-        				<div class="modal-body">
-				          	<form action="/Edit.html" id="EditForm">
-				          		<input type="text" placeholder="Name" />
-				          		<input type="text" class="hidden" value=${person.id}/>
-				          	</form>
-				        </div>
-				        <div class="modal-footer">
-         				 	<input type="button" value="Submit" id="EditFormSubmitButton" />
-							<script type="text/javascript">
-							    $(document).ready(function() {
-							       $("#EditFormSubmitButton").click(function() {
-							           $("#EditForm").submit();
-							       });
-							    });
-							</script>
-							<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-        				</div>
-        			</div>
-        		</div>
-        	</div>
-        </div> -->
+	<table style="width:500px">
+	<thead>
+		<tr>
+			<td>something</td>
+			<td>something</td>
+			<td>something</td>
+			<td>something</td>
+		</tr>
+	</thead>
+	<tbody>
+		<tr>
+            <td th:text = "${person.id}"></td>
+            <td th:text = "${person.name}"></td>
+            <td>
+                <ul style="list-style-type: none;" th:each="phoneNumber : ${person.phoneNumber}">
+                    <li th:text="${phoneNumber.number}"></li>
+                </ul>
+            </td>
+            <td>
+            	<a id="buttonEdit" data-toggle="modal" data-target="#EditModal">Edit</a>
+            	<div id="EditModal" class="modal fade" role="dialog">
+            		
+            			<div class="modal-dialog">
+		              		<form class="modal-content" action="/Edit" method="GET">
+			              		<div class="modal-header">
+			              			<button type="button" class="close" data-dismiss="modal">&times;</button>
+			              		</div>
+			                	<div class="modal-body">
+			                		<input type="text" class="hidden" name = "id" th:value="${person.id}"/>
+			                		<input type="text" placeholder="Name" name="name" th:value="${person.name}"/>
+			                	</div>
+			                	<div class="modal-footer">
+			                		<button type="submit" class = "btn btn-default">Submit</button>
+			                		<button type="button" class = "btn btn-danger cancelbtn" data-dismiss="modal">Cancel</button>
+			                	</div>
+                			</form>
+               			</div>
+           			
+            	</div>
+            </td>
+          </tr>
+          </tbody>
+      </table>
 </body>
 </html>

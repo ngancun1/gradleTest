@@ -38,8 +38,7 @@ public class PersonController {
 		personService.delete(personID);
 		return "redirect:All";
 	}
-	
-	//Test DAO (khong chay luon)
+	/*
 	@RequestMapping(value = "/getOne", method = RequestMethod.GET)
 	public String getOnePerson(Model model){
 		
@@ -47,5 +46,5 @@ public class PersonController {
 		person = personService.getOneByID(2);
 		model.addAttribute("person",person);
 		return "/NewFile";
-	}
+	}*/
 }

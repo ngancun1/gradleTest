@@ -23,16 +23,16 @@ public class PersonDAO {
 		try {
 			transaction = session.beginTransaction();
 			System.out.println("step 3");
-			Query query = session.createQuery("from person");
+			Query query = session.createQuery("from Person");
 			System.out.println("step 4");
 			ArrayList<Person> tmp = (ArrayList<Person>) query.list();
 			System.out.println("step 5");
-//			for(int i = 0;i < tmp.size();i++) {
-//				Query query1 = session.createQuery("from phone_number where person_id=:person_id");
-//				query1.setParameter("person_id", tmp.get(i).getId());
-//				List<PhoneNumber> listPhoneNumber = (List<PhoneNumber>) query1.list();
-//				tmp.get(i).setPhoneNumber(listPhoneNumber);
-//			}
+			for(int i = 0;i < tmp.size();i++) {
+				Query query1 = session.createQuery("from PhoneNumber where person_id=:person_id");
+				query1.setParameter("person_id", tmp.get(i).getId());
+				List<PhoneNumber> listPhoneNumber = (List<PhoneNumber>) query1.list();
+				tmp.get(i).setPhoneNumber(listPhoneNumber);
+			}
 			return tmp;
 		}catch(Exception ex) {
 			if(transaction != null) {
@@ -113,7 +113,7 @@ public class PersonDAO {
 		Transaction transaction = null;
 		try {
 			transaction = session.beginTransaction();
-			Query query = session.createQuery("from person where id = :id");
+			Query query = session.createQuery("from Person where id = :id");
 			query.setParameter("id", id);
 			Person person = (Person) query.uniqueResult();
 			return person;

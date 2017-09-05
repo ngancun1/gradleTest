@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 
 import com.example.gradleTest.DAO.PersonDAO;
 import com.example.gradleTest.model.Person;
+import com.example.gradleTest.model.PhoneNumber;
 
 @Service
 public class PersonService {
@@ -31,5 +32,9 @@ public class PersonService {
 	
 	public Person getOneByID(long id) {
 		return personDAO.getOneByID(id);
+	}
+	
+	public ArrayList<PhoneNumber> getPhoneNumberList(long id){
+		return personDAO.getPhoneNumberList(id);
 	}
 }

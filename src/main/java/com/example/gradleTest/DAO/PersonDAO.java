@@ -17,16 +17,11 @@ public class PersonDAO {
 	@SuppressWarnings("unchecked")
 	public ArrayList<Person> getAll(){
 		Session session = HibernateUtil.getSessionFactory().openSession();
-		System.out.println("step 1");
 		Transaction transaction = null;
-		System.out.println("step 2");
 		try {
 			transaction = session.beginTransaction();
-			System.out.println("step 3");
 			Query query = session.createQuery("from Person");
-			System.out.println("step 4");
 			ArrayList<Person> tmp = (ArrayList<Person>) query.list();
-			System.out.println("step 5");
 			for(int i = 0;i < tmp.size();i++) {
 				Query query1 = session.createQuery("from PhoneNumber where person_id=:person_id");
 				query1.setParameter("person_id", tmp.get(i).getId());
@@ -117,6 +112,25 @@ public class PersonDAO {
 			query.setParameter("id", id);
 			Person person = (Person) query.uniqueResult();
 			return person;
+		}catch(Exception ex) {
+			if(transaction != null) {
+				transaction.rollback();
+			}
+		}finally {
+			session.close();
+		}
+		return null;
+	}
+	
+	public ArrayList<PhoneNumber> getPhoneNumberList(long id){
+		Session session = HibernateUtil.getSessionFactory().openSession();
+		Transaction transaction = null;
+		try {
+			transaction = session.beginTransaction();
+			Query query = session.createQuery("from PhoneNumber where person_id = :id");
+			query.setParameter("id", id);
+			ArrayList<PhoneNumber> tmp = (ArrayList<PhoneNumber>) query.list();
+			return tmp;
 		}catch(Exception ex) {
 			if(transaction != null) {
 				transaction.rollback();

@@ -45,7 +45,6 @@ public class PersonController {
 	
 	@RequestMapping(value = "/toEditPhoneNumber", method = RequestMethod.GET)
 	public String toEditPhoneNumber(Model model, @RequestParam("id") String id) {
-		System.out.println("something");
 		model.addAttribute("listPhoneNumber",personService.getPhoneNumberList(Long.parseLong(id)));
 		return "/EditPhoneNumber";
 	}

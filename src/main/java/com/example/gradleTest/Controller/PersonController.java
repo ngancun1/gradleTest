@@ -15,6 +15,8 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import com.example.gradleTest.Service.PersonService;
 import com.example.gradleTest.model.Person;
 import com.example.gradleTest.model.PersonRequest;
+import com.example.gradleTest.model.PhoneNumber;
+import com.example.gradleTest.model.PhoneNumberRequest;
 
 @Controller
 public class PersonController {
@@ -26,7 +28,7 @@ public class PersonController {
 	public String getAllPerson(Model model) {
 		ArrayList<Person> listPerson = personService.getAll();
 		model.addAttribute("listPerson",listPerson);
-		return "/scrap";
+		return "/All";
 	}
 	
 	@RequestMapping(value = "/Edit", method = RequestMethod.POST)
@@ -35,25 +37,43 @@ public class PersonController {
 		return "redirect:All";
 	}
 	
-	@RequestMapping(value = "/Delete", method = RequestMethod.GET)
-	public String editPerson(@RequestParam("id") String id){
-		long personID = Long.parseLong(id);
-		personService.delete(personID);
+	@RequestMapping(value = "/Delete", method = RequestMethod.POST)
+	public String deletePerson(@ModelAttribute(value="person1") PersonRequest person){
+		personService.delete(person.getId());
 		return "redirect:All";
 	}
 	
-	@RequestMapping(value = "/toEditPhoneNumber", method = RequestMethod.POST)
-	public @ResponseBody String toEditPhoneNumber(Model model, @RequestBody PersonRequest person) {
+	@RequestMapping(value = "/toEditPhoneNumber", method = RequestMethod.GET)
+	public String toEditPhoneNumber(Model model, @RequestParam("id") String id) {
 		System.out.println("something");
-		model.addAttribute("listPhoneNumber",personService.getPhoneNumberList(person.getId()));
+		model.addAttribute("listPhoneNumber",personService.getPhoneNumberList(Long.parseLong(id)));
 		return "/EditPhoneNumber";
 	}
 	
 	@RequestMapping(value = "/GetOnePerson", method = RequestMethod.GET)
-	public Person GetOnePerson(@RequestParam("id") String id) {
-		System.out.println("ran");
+	public @ResponseBody PersonRequest GetOnePerson(@RequestParam("id") String id) {
 		long personID = Long.parseLong(id);
-		return personService.getOneByID(personID);
+		Person tmp = personService.getOneByID(personID);
+		PersonRequest personR = new PersonRequest();
+		personR.setId(personID);
+		personR.setName(tmp.getName());
+		return personR;
+	}
+	
+	@RequestMapping(value = "/GetOnePhoneNumber", method = RequestMethod.GET)
+	public @ResponseBody PhoneNumberRequest GetOnePhoneNumber(@RequestParam("id") String id) {
+		long phoneNumberID = Long.parseLong(id);
+		PhoneNumber tmp = personService.getOnePhoneNumberByID(phoneNumberID);
+		PhoneNumberRequest phoneR = new PhoneNumberRequest();
+		phoneR.setId(phoneNumberID);
+		phoneR.setNumber(tmp.getNumber());
+		return phoneR;
+	}
+	
+	@RequestMapping(value = "/EditPhoneNumber", method = RequestMethod.POST)
+	public String editPerson(@ModelAttribute(value="phoneNumber") PhoneNumberRequest phone) {
+		personService.updatePhoneNumber(phone.getId(), phone.getNumber());
+		return "redirect:All";
 	}
 	
 	/*

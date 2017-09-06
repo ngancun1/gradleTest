@@ -140,4 +140,46 @@ public class PersonDAO {
 		}
 		return null;
 	}
+	
+	public PhoneNumber getOnePhoneNumberByID(long id) {
+		Session session = HibernateUtil.getSessionFactory().openSession();
+		Transaction transaction = null;
+		try {
+			transaction = session.beginTransaction();
+			Query query = session.createQuery("from PhoneNumber where id = :id");
+			query.setParameter("id", id);
+			PhoneNumber phoneNumber = (PhoneNumber) query.uniqueResult();
+			return phoneNumber;
+		}catch(Exception ex) {
+			if(transaction != null) {
+				transaction.rollback();
+			}
+		}finally {
+			session.close();
+		}
+		return null;
+	}
+	
+	public boolean updatePhoneNumber(long id, String number) {
+		Session session = HibernateUtil.getSessionFactory().openSession();
+		Transaction transaction = null;
+		PhoneNumber phoneNumber = getOnePhoneNumberByID(id);
+		if(phoneNumber == null) return false;
+		else {
+			try {
+				transaction = session.beginTransaction();
+				phoneNumber.setNumber(number);
+				session.update(phoneNumber);
+				transaction.commit();
+				return true;
+			}catch(Exception ex) {
+				if(transaction != null) {
+					transaction.rollback();
+				}
+			}finally {
+				session.close();
+			}
+		}
+		return false;
+	}
 }

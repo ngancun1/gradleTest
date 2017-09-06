@@ -1,10 +1,71 @@
 <!DOCTYPE html>
-<html>
+<html xmlns:th="http://www.thymeleaf.org">
 <head>
-<meta charset="ISO-8859-1">
+<meta charset="ISO-8859-1"/>
 <title>Insert title here</title>
 </head>
 <body>
-	<p>LUL</p>
+	<div>
+	    <p style="font-size:30px" align="center">TABLE OF CONTENT</p>
+	    <table class="table table-striped">
+	        <thead>
+	            <tr>
+	                <td>ID</td>
+	                <td>phoneNumber</td>
+	                <td>Action</td>
+	            </tr>
+	        </thead>
+	        <tbody>
+	            <th:block th:each="phoneNumber : ${listPhoneNumber}">
+	                <tr>
+	                    <td th:text = "${phoneNumber.id}"></td>
+	                    <td th:text = "${phoneNumber.number}"></td>
+	                    <td>
+	                    	<a class="buttonEdit" data-toggle="modal" data-target="#EditModal" th:attr="data-id=${phoneNumber.id}">Edit</a>
+	                    	<a class="buttonDelete" data-toggle="modal" data-target="#DeleteModal" th:attr="data-id=${phoneNumber.id}">Delete</a>
+	                    </td>
+	                </tr>
+	            </th:block>
+	        </tbody>
+	    </table>
+	</div>
+	<div id ="EditModal" class="modal fade" role="dialog">
+		<form class="modal-dialog" th:action="@{/EditPhoneNumber}" th:object="${phoneNumber}" method="POST">
+	   		<div class="modal-content">
+	     		<div class="modal-header">
+	     			<button type="button" class="close" data-dismiss="modal">&times;</button>
+	     		</div>
+		       	<div class="modal-body">
+		       		<input type="text" class="hidden" id="edit-modal-phone-number-id" name="id" value=""/>
+		       		<input type="text" placeholder="Number" id="edit-modal-phone-number-number" name="number" value=""/>
+		       	</div>
+		       	<div class="modal-footer">
+		       		<button type="submit" id="SubmitEdit" class="btn btn-default" >Submit</button>
+		       		<button type="button" class = "btn btn-default" data-dismiss="modal">Cancel</button>
+		       	</div>
+  			</div>
+		</form>
+	</div>
+	<script>
+  		$(document).ready(function(){
+  			$(".buttonEdit").click(function(e){
+  				e.preventDefault();
+  				var id = $(this).attr('data-id');
+  				$.ajax({
+  					type: "GET",
+  					url : "/GetOnePhoneNumber",
+  					data : 'id='+id,
+  					datatype : "text",
+  					success : function(result){
+  						$('#edit-modal-phone-number-id').val(result.id);
+  						$('#edit-modal-phone-number-number').val(result.number);
+  					},
+  					error : function(){
+  						alert("ERROR");
+  					}
+  				});
+  			});
+  		});
+    </script>
 </body>
 </html>

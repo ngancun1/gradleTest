@@ -37,4 +37,12 @@ public class PersonService {
 	public ArrayList<PhoneNumber> getPhoneNumberList(long id){
 		return personDAO.getPhoneNumberList(id);
 	}
+	
+	public PhoneNumber getOnePhoneNumberByID(long id) {
+		return personDAO.getOnePhoneNumberByID(id);
+	}
+	
+	public boolean updatePhoneNumber(long id, String number) {
+		return personDAO.updatePhoneNumber(id, number);
+	}
 }

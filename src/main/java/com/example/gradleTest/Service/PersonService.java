@@ -49,4 +49,8 @@ public class PersonService {
 	public boolean insertPhoneNumber(long personID, String number) {
 		return personDAO.insertPhoneNumber(personID, number);
 	}
+	
+	public boolean deletePhoneNumber(long id) {
+		return personDAO.deletePhoneNumber(id);
+	}
 }

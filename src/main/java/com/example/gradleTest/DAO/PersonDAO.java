@@ -210,7 +210,9 @@ public class PersonDAO {
 		Transaction transaction = null;
 		try {
 			transaction = session.beginTransaction();
-			session.delete(getOnePhoneNumberByID(id));
+			PhoneNumber phoneNumber = getOnePhoneNumberByID(id);
+			System.out.println("DAO & id = "+phoneNumber.getId());
+			session.delete(phoneNumber);
 			transaction.commit();
 			return true;
 		}catch(Exception ex) {

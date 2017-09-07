@@ -85,7 +85,7 @@ public class PersonController {
 	
 	@RequestMapping(value = "/DeletePhoneNumber", method = RequestMethod.POST)
 	public String DeletePhoneNumber(@ModelAttribute(value="phoneNumber") PhoneNumberRequest phone) {
-		personService.delete(phone.getId());
+		personService.deletePhoneNumber(phone.getId());
 		return "redirect:All";
 	}
 	

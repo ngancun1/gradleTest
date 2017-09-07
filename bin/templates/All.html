@@ -1,63 +1,63 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
-    <head>
-        <title>Watashitachi wa koko de seizan no uta wo utau~~~ anata e to</title>
-        <meta charset="UTF-8"/>
-        <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"/>
-        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
-        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
-        
-    </head>
-    <body>
-        <div>
-            <p style="font-size:30px" align="center">TABLE OF CONTENT</p>
-            <table class="table table-striped">
-                <thead>
-                    <tr>
-                        <td>ID</td>
-                        <td>name</td>
-                        <td>phoneNumber</td>
-                        <td>Action</td>
-                    </tr>
-                </thead>
-                <tbody>
-                    <th:block th:each="person : ${listPerson}">
-                        <tr>
-                            <td th:text = "${person.id}"></td>
-                            <td th:text = "${person.name}"></td>
-                            <td>
-                                <ul style="list-style-type: none;" th:each="phoneNumber : ${person.phoneNumber}">
-                                    <li th:text="${phoneNumber.number}"></li>
-                                </ul>
-                            </td>
-                            <td>
-                            	<a class="buttonEdit" data-toggle="modal" data-target="#EditModal" th:attr="data-id=${person.id}">Edit</a>
-                            	<a class="buttonDelete" data-toggle="modal" data-target="#DeleteModal" th:attr="data-id=${person.id}">Delete</a>
-                            </td>
-                        </tr>
-                    </th:block>
-                </tbody>
-            </table>
-        </div>
-        <div id ="EditModal" class="modal fade" role="dialog">
+	<head>
+		<title>Watashitachi wa koko de seizan no uta wo utau~~~ anata e to</title>
+		<meta charset="UTF-8"/>
+		<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"/>
+		<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+		<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+	</head>
+	<body>
+		<div>
+			<p style="font-size:30px" align="center">TABLE OF CONTENT</p>
+			<table class="table table-striped">
+				<thead>
+					<tr>
+						<td>ID</td>
+						<td>name</td>
+						<td>phoneNumber</td>
+						<td>Action</td>
+					</tr>
+				</thead>
+				<tbody>
+					<th:block th:each="person : ${listPerson}">
+						<tr>
+							<td th:text = "${person.id}"></td>
+							<td th:text = "${person.name}"></td>
+							<td>
+								<ul style="list-style-type: none;" th:each="phoneNumber : ${person.phoneNumber}">
+									<li th:text="${phoneNumber.number}"></li>
+								</ul>
+							</td>
+							<td>
+								<a class="buttonEdit" data-toggle="modal" data-target="#EditModal" th:attr="data-id=${person.id}">Edit</a>
+								<a class="buttonDelete" data-toggle="modal" data-target="#DeleteModal" th:attr="data-id=${person.id}">Delete</a>
+							</td>
+						</tr>
+					</th:block>
+				</tbody>
+			</table>
+			<a class="buttonInsert btn btn-default" data-toggle="modal" data-target="#InsertModal">Insert</a>
+		</div>
+		<div id ="EditModal" class="modal fade" role="dialog">
 			<form class="modal-dialog" th:action="@{/Edit}" th:object="${person1}" method="POST">
-		   		<div class="modal-content">
-		     		<div class="modal-header">
-		     			<button type="button" class="close" data-dismiss="modal">&times;</button>
-		     		</div>
-			       	<div class="modal-body">
-			       		<input type="text" class="hidden" id="edit-modal-person-id" name="id" value=""/>
-			       		<input type="text" placeholder="Name" id="edit-modal-person-name" name="name" value=""/>
-			       		<div>
-		       				<a class="btn btn-default pull-right" id="PhoneNumberEdit">Edit Phone Number</a>
-			       		</div>
-			       	</div>
-			       	<div class="modal-footer">
-			       		<button type="submit" id="SubmitEdit" class="btn btn-default" >Submit</button>
-			       		<button type="button" class = "btn btn-default" data-dismiss="modal">Cancel</button>
-			       	</div>
-	  			</div>
+				<div class="modal-content">
+					<div class="modal-header">
+						<button type="button" class="close" data-dismiss="modal">&times;</button>
+					</div>
+						<div class="modal-body">
+						<input type="hidden" id="edit-modal-person-id" name="id" value=""/>
+						<input type="text" placeholder="Name" id="edit-modal-person-name" name="name" value=""/>
+						<div>
+							<a class="btn btn-default pull-right" id="PhoneNumberEdit">Edit Phone Number</a>
+						</div>
+					</div>
+					<div class="modal-footer">
+						<button type="submit" id="SubmitEdit" class="btn btn-default" >Submit</button>
+						<button type="button" class = "btn btn-default" data-dismiss="modal">Cancel</button>
+					</div>
+				</div>
 			</form>
 		</div>
 		<div id ="DeleteModal" class="modal fade" role="dialog">
@@ -67,76 +67,96 @@
 						<button type="button" class="close" data-dismiss="modal">&times;</button>
 					</div>
 					<div class="modal-body">
-			       		<input type="text" class="hidden" id="delete-modal-person-id" name="id" value=""/>
-			       		<input type="text" placeholder="Name" id="delete-modal-person-name" name="name" value=""/>
-			       	</div>
-			       	<div class="modal-footer">
-			       		<button type="submit" id="SubmitDelete" class="btn btn-danger btn-default" >Delete</button>
-			       		<button type="button" class = "btn cancelbtn" data-dismiss="modal">Cancel</button>
-			       	</div>
+						<input type="text" class="hidden" id="delete-modal-person-id" name="id" value=""/>
+						<input type="text" placeholder="Name" id="delete-modal-person-name" name="name" value=""/>
+					</div>
+					<div class="modal-footer">
+						<button type="submit" id="SubmitDelete" class="btn btn-danger btn-default" >Delete</button>
+						<button type="button" class = "btn cancelbtn" data-dismiss="modal">Cancel</button>
+					</div>
 				</div>
 			</form>
 		</div>
-	    <script>
-	  		$(document).ready(function(){
-	  			$(".buttonEdit").click(function(e){
-	  				e.preventDefault();
-	  				var id = $(this).attr('data-id');
-	  				$.ajax({
-	  					type: "GET",
-	  					url : "/GetOnePerson",
-	  					data : 'id='+id,
-	  					datatype : "text",
-	  					success : function(result){
-	  						$('#edit-modal-person-id').val(result.id);
-	  						$('#edit-modal-person-name').val(result.name);
-	  						$('#PhoneNumberEdit').prop('th:attr','data-id='+id);
-	  					},
-	  					error : function(){
-	  						alert("ERROR");
-	  					}
-	  				});
-	  			});
-	  		});
-	    </script>
-	    <script>
-	  		$(document).ready(function(){
-	  			$(".buttonDelete").click(function(e){
-	  				e.preventDefault();
-	  				var id = $(this).attr('data-id');
-	  				$.ajax({
-	  					type: "GET",
-	  					url : "/GetOnePerson",
-	  					data : 'id='+id,
-	  					datatype : "text",
-	  					success : function(result){
-	  						$('#delete-modal-person-id').val(result.id);
-	  						$('#delete-modal-person-name').val(result.name);
-	  						$('#delete-modal-person-name').prop('readonly','readonly')
-	  					},
-	  					error : function(){
-	  						alert("ERROR");
-	  					}
-	  				});
-	  			});
-	  		});
-	    </script>
-	    <script>
-	  		$(document).ready(function(){
-	  			$(".PhoneNumberEdit").click(function(e){
-	  				e.preventDefault();
-	  				var id = $(this).attr('data-id');
-	  				$.ajax({
-	  					type: "GET",
-	  					url : "/toEditPhoneNumber",
-	  					data : 'id='+id,
-	  					datatype : "text",
-	  					error : function(){
-	  						alert("ERROR");
-	  					}
-	  				});
-	  			});
-	  		});
-	    </script>
-    </body>
+		<div id ="InsertModal" class="modal fade" role="dialog">
+			<form class="modal-dialog" th:action="@{/Insert}" th:object="${person}" method="POST">
+				<div class="modal-content">
+					<div class="modal-header">
+						<button type="button" class="close" data-dismiss="modal">&times;</button>
+					</div>
+					<div class="modal-body">
+						<input type="hidden" id="edit-modal-person-id" name="id" value="0"/>
+						<input type="text" placeholder="Name" id="edit-modal-person-name" name="name" value=""/>
+					</div>
+					<div class="modal-footer">
+						<button type="submit" id="SubmitEdit" class="btn btn-default" >Submit</button>
+						<button type="button" class = "btn btn-default" data-dismiss="modal">Cancel</button>
+					</div>
+				</div>
+			</form>
+		</div>
+		<script>
+			$(document).ready(function(){
+				$(".buttonEdit").click(function(e){
+					e.preventDefault();
+					var id = $(this).attr('data-id');
+					$.ajax({
+						type: "GET",
+						url : "/GetOnePerson",
+						data : 'id=' + id,
+						datatype : "text",
+						success : function(result){
+							$('#edit-modal-person-id').val(result.id);
+							$('#edit-modal-person-name').val(result.name);
+							$('#PhoneNumberEdit').prop('th:attr','data-id='+id);
+						},
+						error : function(){
+							alert("ERROR");
+						}
+					});
+				});
+			});
+		</script>
+		<script>
+			$(document).ready(function(){
+				$(".buttonDelete").click(function(e){
+					e.preventDefault();
+					var id = $(this).data('id');
+					$.ajax({
+						type: "GET",
+						url : "/GetOnePerson",
+						data : 'id=' + id,
+						datatype : "text",
+						success : function(result){
+							$('#delete-modal-person-id').val(result.id);
+							$('#delete-modal-person-name').val(result.name);
+							$('#delete-modal-person-name').prop('readonly', 'readonly')
+						},
+						error : function(){
+							alert("ERROR");
+						}
+					});
+				});
+			});
+		</script>
+		<script>
+			$(document).ready(function(){
+				$("#PhoneNumberEdit").click(function(e){
+					e.preventDefault();
+					var id = $('#edit-modal-person-id').val();
+					$.ajax({
+						type: "GET",
+						url : "/toEditPhoneNumber",
+						data : 'id='+id,
+						datatype : "text",
+						success : function(result){
+							window.location.href = '/toEditPhoneNumber?id='+id;
+						},
+						error : function(){
+							alert("AAAA");
+						}
+					});
+				});
+			});
+		</script>
+	</body>
 </html>

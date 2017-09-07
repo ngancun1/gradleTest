@@ -45,4 +45,8 @@ public class PersonService {
 	public boolean updatePhoneNumber(long id, String number) {
 		return personDAO.updatePhoneNumber(id, number);
 	}
+	
+	public boolean insertPhoneNumber(long personID, String number) {
+		return personDAO.insertPhoneNumber(personID, number);
+	}
 }

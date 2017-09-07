@@ -3,7 +3,7 @@ package com.example.gradleTest.model;
 public class PhoneNumberRequest {
 	private long id;
 	private String number;
-	private Person person;
+	private long personID;
 	
 	public long getId() {
 		return id;
@@ -17,11 +17,11 @@ public class PhoneNumberRequest {
 	public void setNumber(String number) {
 		this.number = number;
 	}
-	public Person getPerson() {
-		return person;
+	public long getPersonID() {
+		return personID;
 	}
-	public void setPerson(Person person) {
-		this.person = person;
+	public void setPersonID(long personID) {
+		this.personID = personID;
 	}
 	public PhoneNumberRequest() {
 		super();

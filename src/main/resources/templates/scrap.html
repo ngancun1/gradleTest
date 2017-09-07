@@ -44,8 +44,7 @@
 		       		<input type="text" class="hidden" id="modal-person-id" name="id" value=""/>
 		       		<input type="text" placeholder="Name" id="modal-person-name" name="name" value=""/>
 		       		<div>
-	       				<input type="text" class="hidden" id="id" name = "id"/>
-	       				<a class="btn btn-default pull-right">Edit Phone Number</a>
+	       				<a class="btn btn-default pull-right" id="PhoneNumberEdit">Edit Phone Number</a>
 		       		</div>
 		       	</div>
 		       	<div class="modal-footer">
@@ -60,15 +59,12 @@
   			$(".buttonEdit").click(function(e){
   				e.preventDefault();
   				var id = $(this).attr('data-id');
-  				alert(id);
   				$.ajax({
   					type: "GET",
   					url : "/GetOnePerson",
   					data : 'id='+id,
   					datatype : "text",
   					success : function(result){
-  						var person = JSON.stringify(result);
-  						alert(person);
   						$('#modal-person-id').val(result.id);
   						$('#modal-person-name').val(result.name);
   					},
@@ -78,6 +74,26 @@
   				});
   			});
   		});
+    </script>
+    <script>
+    	$(document).ready(function(){
+    		$("#PhoneNumberEdit").click(function(e){
+    			e.preventDefault();
+    			var id = $('#modal-person-id').val();
+    			$.ajax({
+  					type: "GET",
+  					url : "/toEditPhoneNumber",
+  					data : 'id='+id,
+  					datatype : "text",
+  					success : function(result){
+  						window.location.href = '/toEditPhoneNumber?id='+id;
+  					},
+  					error : function(){
+  						alert("AAAA");
+  					}
+  				});
+    		});
+    	});
     </script>
 </body>
 </html>

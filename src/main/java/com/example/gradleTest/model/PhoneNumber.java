@@ -46,6 +46,14 @@ public class PhoneNumber implements Serializable{
 	public void setNumber(String number) {
 		this.number = number;
 	}
+
+	public Person getPerson() {
+		return person;
+	}
+
+	public void setPerson(Person person) {
+		this.person = person;
+	}
 	
 	
 }

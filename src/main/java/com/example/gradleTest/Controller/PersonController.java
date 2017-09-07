@@ -45,8 +45,10 @@ public class PersonController {
 	
 	@RequestMapping(value = "/toEditPhoneNumber", method = RequestMethod.GET)
 	public String toEditPhoneNumber(Model model, @RequestParam("id") String id) {
-		model.addAttribute("listPhoneNumber",personService.getPhoneNumberList(Long.parseLong(id)));
-		return "/EditPhoneNumber";
+		ArrayList<PhoneNumber> tmp = personService.getPhoneNumberList(Long.parseLong(id));
+		model.addAttribute("listPhoneNumber",tmp);
+		model.addAttribute("personID",id);
+		return "/ViewPhoneNumber";
 	}
 	
 	@RequestMapping(value = "/GetOnePerson", method = RequestMethod.GET)
@@ -72,6 +74,24 @@ public class PersonController {
 	@RequestMapping(value = "/EditPhoneNumber", method = RequestMethod.POST)
 	public String editPerson(@ModelAttribute(value="phoneNumber") PhoneNumberRequest phone) {
 		personService.updatePhoneNumber(phone.getId(), phone.getNumber());
+		return "/toEditPhoneNumber";
+	}
+	
+	@RequestMapping(value = "/InsertPhoneNumber", method = RequestMethod.POST)
+	public String InsertPhoneNumber(@ModelAttribute(value="phoneNumber") PhoneNumberRequest phone) {
+		personService.insertPhoneNumber(phone.getPersonID(), phone.getNumber());
+		return "redirect:All";
+	}
+	
+	@RequestMapping(value = "/DeletePhoneNumber", method = RequestMethod.POST)
+	public String DeletePhoneNumber(@ModelAttribute(value="phoneNumber") PhoneNumberRequest phone) {
+		personService.delete(phone.getId());
+		return "/toEditPhoneNumber";
+	}
+	
+	@RequestMapping(value = "/Insert",method = RequestMethod.POST)
+	public String Insert(@ModelAttribute(value="person") PersonRequest person) {
+		personService.insert(person.getName());
 		return "redirect:All";
 	}
 	

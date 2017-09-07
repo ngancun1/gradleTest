@@ -127,7 +127,8 @@ public class PersonDAO {
 		Transaction transaction = null;
 		try {
 			transaction = session.beginTransaction();
-			Query query = session.createQuery("from PhoneNumber where person_id = :id");
+			//Person person = getOneByID(id);
+			Query query = session.createQuery("from PhoneNumber where person.id = :id");
 			query.setParameter("id", id);
 			ArrayList<PhoneNumber> tmp = (ArrayList<PhoneNumber>) query.list();
 			return tmp;
@@ -179,6 +180,45 @@ public class PersonDAO {
 			}finally {
 				session.close();
 			}
+		}
+		return false;
+	}
+	
+	public boolean insertPhoneNumber(long personID, String number) {
+		Session session = HibernateUtil.getSessionFactory().openSession();
+		Transaction transaction = null;
+		try {
+			transaction = session.beginTransaction();
+			PhoneNumber phoneNumber = new PhoneNumber();
+			phoneNumber.setNumber(number);
+			phoneNumber.setPerson(getOneByID(personID));
+			session.save(phoneNumber);
+			transaction.commit();
+			return true;
+		}catch(Exception ex) {
+			if(transaction != null) {
+				transaction.rollback();
+			}
+		}finally {
+			session.close();
+		}
+		return false;
+	}
+	
+	public boolean deletePhoneNumber(long id) {
+		Session session = HibernateUtil.getSessionFactory().openSession();
+		Transaction transaction = null;
+		try {
+			transaction = session.beginTransaction();
+			session.delete(getOnePhoneNumberByID(id));
+			transaction.commit();
+			return true;
+		}catch(Exception ex) {
+			if(transaction != null) {
+				transaction.rollback();
+			}
+		}finally {
+			session.close();
 		}
 		return false;
 	}

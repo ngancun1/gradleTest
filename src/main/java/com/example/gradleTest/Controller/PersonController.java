@@ -74,7 +74,7 @@ public class PersonController {
 	@RequestMapping(value = "/EditPhoneNumber", method = RequestMethod.POST)
 	public String editPerson(@ModelAttribute(value="phoneNumber") PhoneNumberRequest phone) {
 		personService.updatePhoneNumber(phone.getId(), phone.getNumber());
-		return "/toEditPhoneNumber";
+		return "redirect:All";
 	}
 	
 	@RequestMapping(value = "/InsertPhoneNumber", method = RequestMethod.POST)
@@ -86,7 +86,7 @@ public class PersonController {
 	@RequestMapping(value = "/DeletePhoneNumber", method = RequestMethod.POST)
 	public String DeletePhoneNumber(@ModelAttribute(value="phoneNumber") PhoneNumberRequest phone) {
 		personService.delete(phone.getId());
-		return "/toEditPhoneNumber";
+		return "redirect:All";
 	}
 	
 	@RequestMapping(value = "/Insert",method = RequestMethod.POST)

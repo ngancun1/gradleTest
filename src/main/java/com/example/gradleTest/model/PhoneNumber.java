@@ -10,6 +10,7 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
+import javax.validation.constraints.Pattern;
 
 @Entity
 @Table(name="phone_number")
@@ -20,6 +21,7 @@ public class PhoneNumber implements Serializable{
 	@Column(name = "id")
 	private long id;
 	
+//	@Pattern(regexp="(^$|[0-9]{10})")
 	@Column(name = "number")
 	private String number;
 	

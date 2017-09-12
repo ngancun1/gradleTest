@@ -1,31 +1,68 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
 <head>
-<meta charset="ISO-8859-1"/>
-<title>Insert title here</title>
+    <title th:text="#{view.signup.title}">Inscription</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+    <link href="../../../resources/css/bootstrap.min.css" rel="stylesheet" media="screen"
+      th:href="@{/resources/css/bootstrap.min.css}"/>
+    <link href="../../../resources/css/core.css" rel="stylesheet" media="screen" th:href="@{/resources/css/core.css}"/>
+    <script src="http://code.jquery.com/jquery-latest.js"></script>
+    <script src="../../../resources/js/bootstrap.min.js" th:src="@{/resources/js/bootstrap.min.js}"></script>
 </head>
 <body>
-	<div>
-		<table class="table">
-	        <thead>
-	            <tr>
-	                <td>ID</td>
-	                <td>name</td>
-	                <td>phoneNumber</td>
-	                <td>Action</td>
-	            </tr>
-	        </thead>
-	        <tbody>
-	        	
-		        	<tr>
-		        		<td>${person}.name</td>
-		        		<td>${person.id}</td>
-		        		<td>${person.id}</td>
-		        		<td>${person.id}</td>
-		        	</tr>
-	        	
-	        </tbody>
-         </table>
-	</div>
+<div th:replace="fragments/header_signup :: header">Header</div>
+<form class="form-narrow form-horizontal" method="post"
+  th:action="@{/signup}" th:object="${signupForm}">
+    <!-- /* Show general error message when form contains errors */ -->
+    <th:block th:if="${#fields.hasErrors('${signupForm.*}')}">
+        <div th:replace="fragments/alert :: alert (type='danger', message='Form contains errors. Please try again.')">
+        Alert
+        </div>
+    </th:block>
+    <fieldset>
+        <div class="form-group" th:classappend="${#fields.hasErrors('username')}? 'has-error'">
+            <label for="username" class="col-lg-2 control-label">Username</label>
+
+            <div class="col-lg-10">
+                <input type="text" class="form-control" id="username" placeholder="Username" th:field="*{username}"/>
+                <span class="help-block" th:if="${#fields.hasErrors('username')}"
+                  th:errors="*{username}">Incorrect username</span>
+            </div>
+        </div>
+        <div class="form-group" th:classappend="${#fields.hasErrors('email')}? 'has-error'">
+            <label for="email" class="col-lg-2 control-label">Email</label>
+
+            <div class="col-lg-10">
+                <input type="text" class="form-control" id="email" placeholder="Email address" th:field="*{email}"/>
+                <span class="help-block" th:if="${#fields.hasErrors('email')}"
+                  th:errors="*{email}">Incorrect email</span>
+            </div>
+        </div>
+        <div class="form-group" th:classappend="${#fields.hasErrors('password')}? 'has-error'">
+            <label for="password" class="col-lg-2 control-label">Password</label>
+
+            <div class="col-lg-10">
+                <input type="password" class="form-control" id="password" placeholder="Password"
+                   th:field="*{password}"/>
+                <span class="help-block" th:if="${#fields.hasErrors('password')}" th:errors="*{password}">Incorrect password</span>
+            </div>
+        </div>
+        <div class="form-group" th:classappend="${#fields.hasErrors('confirmPassword')}? 'has-error'">
+            <label for="confirmPassword" class="col-lg-2 control-label">Password confirmation</label>
+
+            <div class="col-lg-10">
+                <input type="password" class="form-control" id="confirmPassword" placeholder="Password confirmation"
+                   th:field="*{confirmPassword}"/>
+                <span class="help-block" th:if="${#fields.hasErrors('confirmPassword')}" th:errors="*{confirmPassword}">Incorrect password confirmation</span>
+                <span class="help-block" th:if="${#fields.hasErrors('global')}" th:errors="*{global}">Incorrect password confirmation</span>
+            </div>
+        </div>
+        <div class="form-group">
+            <div class="col-lg-offset-2 col-lg-10">
+                <button type="submit" class="btn btn-default" th:text="#{view.signup.label}">Sign up</button>
+            </div>
+        </div>
+    </fieldset>
+</form>
 </body>
 </html>

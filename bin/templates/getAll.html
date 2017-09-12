@@ -1,7 +1,7 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
 	<head>
-		<title>Watashitachi wa koko de seizan no uta wo utau~~~ anata e to</title>
+		<title>yabai yabai</title>
 		<meta charset="UTF-8"/>
 		<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
 		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"/>
@@ -48,7 +48,8 @@
 					</div>
 						<div class="modal-body">
 						<input type="hidden" id="edit-modal-person-id" name="id" value=""/>
-						<input type="text" placeholder="Name" id="edit-modal-person-name" name="name" value=""/>
+						<input type="text" placeholder="Name" id="edit-modal-person-name" name="name"/>
+						<p th:if="${#fields.hasErrors('name')}" th:errors="*{name}">something</p>
 						<div>
 							<a class="btn btn-default pull-right" id="PhoneNumberEdit">Edit Phone Number</a>
 						</div>

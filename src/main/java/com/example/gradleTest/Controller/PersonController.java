@@ -2,16 +2,17 @@ package com.example.gradleTest.Controller;
 
 import java.util.ArrayList;
 
+import javax.validation.Valid;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
-
 import com.example.gradleTest.Service.PersonService;
 import com.example.gradleTest.model.Person;
 import com.example.gradleTest.model.PersonRequest;
@@ -28,13 +29,22 @@ public class PersonController {
 	public String getAllPerson(Model model) {
 		ArrayList<Person> listPerson = personService.getAll();
 		model.addAttribute("listPerson",listPerson);
-		return "/All";
+		return "/getAll";
 	}
 	
 	@RequestMapping(value = "/Edit", method = RequestMethod.POST)
-	public String editPerson(@ModelAttribute(value="person1") PersonRequest person) {
-		personService.update(person.getId(), person.getName());
-		return "redirect:All";
+	public String editPerson(@Valid @ModelAttribute(value="person1") PersonRequest person, BindingResult result) {
+//		if(person.getName().equals("")) {
+//			return "redirect:All";
+//		}
+		/*else*/ if(result.hasErrors()) {
+			
+			return "redirect:All";
+		}
+		else {
+			personService.update(person.getId(), person.getName());
+			return "redirect:All";
+		}
 	}
 	
 	@RequestMapping(value = "/Delete", method = RequestMethod.POST)

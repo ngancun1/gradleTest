@@ -1,9 +1,22 @@
 package com.example.gradleTest.model;
 
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Pattern;
+
+import org.hibernate.validator.constraints.NotEmpty;
+
 public class PhoneNumberRequest {
+	@NotEmpty
 	private long id;
+	
+	@Pattern(regexp="(^$|[0-9])")
+	@NotNull
+	@NotEmpty
 	private String number;
+	
+	@NotEmpty
 	private long personID;
+	
 	
 	public long getId() {
 		return id;

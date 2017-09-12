@@ -13,7 +13,7 @@ import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 
-import org.hibernate.validator.constraints.NotEmpty;
+import com.example.gradleTest.Validator.Name;
 
 @Entity
 @Table(name="person")
@@ -24,7 +24,7 @@ public class Person implements Serializable{
 	@Column(name = "id")
 	private long id;
 	
-	@NotEmpty
+	@Name
 	@Column(name = "name")
 	private String name;
 	

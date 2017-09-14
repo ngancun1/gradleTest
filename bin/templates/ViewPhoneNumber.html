@@ -35,7 +35,7 @@
 	    <a class="buttonInsert btn btn-default" data-toggle="modal" data-target="#InsertModal" th:attr="data-id=${personID}">Insert</a>
 	</div>
 	<div id ="EditModal" class="modal fade" role="dialog">
-		<form class="modal-dialog" th:action="@{/EditPhoneNumber}" th:object="${phoneNumber}" method="POST">
+		<form class="modal-dialog" th:action="@{/EditPhoneNumber}" th:object="${phoneNumber}" method="POST" id="EditForm">
 	   		<div class="modal-content">
 	     		<div class="modal-header">
 	     			<button type="button" class="close" data-dismiss="modal">&times;</button>
@@ -43,7 +43,8 @@
 		       	<div class="modal-body">
 		       		<input type="text" class="hidden" id="edit-modal-phone-number-id" name="id" value=""/>
 		       		<input type="text" placeholder="Number" id="edit-modal-phone-number-number" name="number" value=""/>
-		       		<input type="text" class="hidden" id="insert-modal-person-id" name="personID" th:value="${personID}"/>
+		       		<input type="text" class="hidden" id="edit-modal-person-id" name="personID" th:value="${personID}"/>
+		       		<p id="EditFormError"></p>
 		       	</div>
 		       	<div class="modal-footer">
 		       		<button type="submit" id="SubmitEdit" class="btn btn-default" >Submit</button>
@@ -130,5 +131,33 @@
   			});
   		});
     </script>
+    <script>
+		$(document).ready(function(){
+			$("#SubmitEdit").click(function(e){
+				e.preventDefault();
+				var inputID = $("#edit-modal-phone-number-id").val();
+				var inputNumber = $("#edit-modal-phone-number-number").val();
+				var inputPersonID = $("#edit-modal-person-id").val();
+				$.ajax({
+					type: "POST",
+					url : "/ValidateEditPhoneNumber",
+					dataType : "json",
+					data : JSON.stringify({"id" : inputID, "number" : inputNumber, "personID" : inputPersonID}),
+					contentType: "application/json",
+					success : function(result){
+						if(result == null){
+							$("#EditFormError").prop("th:text","ERROR");
+						}
+						else{
+							$("#EditForm").submit();
+						}
+					},
+					error : function(){
+						alert("ERR");
+					}
+				});
+			});
+		});
+	</script>
 </body>
 </html>

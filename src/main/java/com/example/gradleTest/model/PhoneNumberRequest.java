@@ -6,17 +6,16 @@ import javax.validation.constraints.Pattern;
 import org.hibernate.validator.constraints.NotEmpty;
 
 public class PhoneNumberRequest {
-	@NotEmpty
+	@NotNull
 	private long id;
 	
-	@Pattern(regexp="(^$|[0-9])")
+	@Pattern(regexp="(^$|[0-9])",message = "Numberic only")
 	@NotNull
-	@NotEmpty
+	@NotEmpty(message = "Can not be empty")
 	private String number;
 	
-	@NotEmpty
+	@NotNull
 	private long personID;
-	
 	
 	public long getId() {
 		return id;

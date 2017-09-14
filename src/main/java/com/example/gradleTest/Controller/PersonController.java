@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -98,18 +99,19 @@ public class PersonController {
 	}
 	
 	@RequestMapping(value = "/ValidateEditPerson",method = RequestMethod.POST)
-	public @ResponseBody PersonRequest ValidatePerson(@Valid @RequestBody PersonRequest person, BindingResult result) {
-		System.out.println("ran here");
+	public @ResponseBody PersonRequest ValidatePerson(@Validated @RequestBody PersonRequest person, BindingResult result) {
 		if(result.hasErrors()) {
 			return null;
 		}
 		else return person;
 	}
 	
-	@RequestMapping(value = "/Test",method = RequestMethod.POST)
-	public @ResponseBody PersonRequest test(@RequestBody PersonRequest person) {
-		System.out.println("goes here");
-		return person;
+	@RequestMapping(value = "/ValidateEditPhoneNumber",method = RequestMethod.POST)
+	public @ResponseBody PhoneNumberRequest ValidatePhoneNumber(@Validated @RequestBody PhoneNumberRequest phoneNumber, BindingResult result) {
+		if(result.hasErrors()) {
+			return null;
+		}
+		else return phoneNumber;
 	}
 	/*
 	@RequestMapping(value = "/getOne", method = RequestMethod.GET)

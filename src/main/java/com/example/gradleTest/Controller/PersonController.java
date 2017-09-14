@@ -9,6 +9,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -33,18 +34,9 @@ public class PersonController {
 	}
 	
 	@RequestMapping(value = "/Edit", method = RequestMethod.POST)
-	public String editPerson(@Valid @ModelAttribute(value="person1") PersonRequest person, BindingResult result) {
-//		if(person.getName().equals("")) {
-//			return "redirect:All";
-//		}
-		/*else*/ if(result.hasErrors()) {
-			
-			return "redirect:All";
-		}
-		else {
+	public String editPerson(@ModelAttribute(value="person1") PersonRequest person) {
 			personService.update(person.getId(), person.getName());
 			return "redirect:All";
-		}
 	}
 	
 	@RequestMapping(value = "/Delete", method = RequestMethod.POST)
@@ -105,6 +97,20 @@ public class PersonController {
 		return "redirect:All";
 	}
 	
+	@RequestMapping(value = "/ValidateEditPerson",method = RequestMethod.POST)
+	public @ResponseBody PersonRequest ValidatePerson(@Valid @RequestBody PersonRequest person, BindingResult result) {
+		System.out.println("ran here");
+		if(result.hasErrors()) {
+			return null;
+		}
+		else return person;
+	}
+	
+	@RequestMapping(value = "/Test",method = RequestMethod.POST)
+	public @ResponseBody PersonRequest test(@RequestBody PersonRequest person) {
+		System.out.println("goes here");
+		return person;
+	}
 	/*
 	@RequestMapping(value = "/getOne", method = RequestMethod.GET)
 	public String getOnePerson(Model model){

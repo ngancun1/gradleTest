@@ -41,15 +41,15 @@
 			<a class="buttonInsert btn btn-default" data-toggle="modal" data-target="#InsertModal">Insert</a>
 		</div>
 		<div id ="EditModal" class="modal fade" role="dialog">
-			<form class="modal-dialog" th:action="@{/Edit}" th:object="${person1}" method="POST">
+			<form class="modal-dialog" th:action="@{/Edit}" th:object="${person1}" method="POST" id="EditForm">
 				<div class="modal-content">
 					<div class="modal-header">
 						<button type="button" class="close" data-dismiss="modal">&times;</button>
 					</div>
-						<div class="modal-body">
+						<div class="modal-body" id="EditModalBody">
 						<input type="hidden" id="edit-modal-person-id" name="id" value=""/>
 						<input type="text" placeholder="Name" id="edit-modal-person-name" name="name"/>
-						<p th:if="${#fields.hasErrors('name')}" th:errors="*{name}">something</p>
+						<p id="EditFormError"></p>
 						<div>
 							<a class="btn btn-default pull-right" id="PhoneNumberEdit">Edit Phone Number</a>
 						</div>
@@ -154,6 +154,33 @@
 						},
 						error : function(){
 							alert("AAAA");
+						}
+					});
+				});
+			});
+		</script>
+		<script>
+			$(document).ready(function(){
+				$("#SubmitEdit").click(function(e){
+					e.preventDefault();
+					var inputID = $("#edit-modal-person-id").val();
+					var inputName = $("#edit-modal-person-name").val();
+					$.ajax({
+						type: "POST",
+						url : "/ValidateEditPerson",
+						dataType : "json",
+						data : JSON.stringify({"id" : inputID, "name" : inputName}),
+						contentType: "application/json",
+						success : function(result){
+							if(result == null){
+								$("#EditFormError").prop("th:text","ERROR");
+							}
+							else{
+								$("#EditForm").submit();
+							}
+						},
+						error : function(){
+							alert("ERR");
 						}
 					});
 				});

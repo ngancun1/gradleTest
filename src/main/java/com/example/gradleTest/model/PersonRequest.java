@@ -11,7 +11,7 @@ public class PersonRequest {
 	@NotNull
 	private long id;
 	
-	@Name
+	@NotEmpty
 	private String name;
 	
 	public long getId() {
@@ -29,6 +29,4 @@ public class PersonRequest {
 	public PersonRequest() {
 		super();
 	}
-	
-	
 }

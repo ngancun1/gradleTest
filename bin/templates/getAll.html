@@ -14,9 +14,9 @@
 			<table class="table table-striped">
 				<thead>
 					<tr>
-						<td>ID</td>
-						<td>name</td>
-						<td>phoneNumber</td>
+						<td style="width:100px">ID</td>
+						<td style="width:500px">Name</td>
+						<td style="width:400px">Phone Number</td>
 						<td>Action</td>
 					</tr>
 				</thead>
@@ -25,8 +25,8 @@
 						<tr>
 							<td th:text = "${person.id}"></td>
 							<td th:text = "${person.name}"></td>
-							<td>
-								<ul style="list-style-type: none;" th:each="phoneNumber : ${person.phoneNumber}">
+							<td >
+								<ul style="list-style-type: none; padding:0px" th:each="phoneNumber : ${person.phoneNumber}">
 									<li th:text="${phoneNumber.number}"></li>
 								</ul>
 							</td>
@@ -38,7 +38,9 @@
 					</th:block>
 				</tbody>
 			</table>
-			<a class="buttonInsert btn btn-default" data-toggle="modal" data-target="#InsertModal">Insert</a>
+		</div>
+		<div class="container" align="center">
+			<a class="buttonInsert btn btn-default pull-left" data-toggle="modal" data-target="#InsertModal">Insert</a>
 		</div>
 		<div id ="EditModal" class="modal fade" role="dialog">
 			<form class="modal-dialog" th:action="@{/Edit}" th:object="${person1}" method="POST" id="EditForm">
@@ -49,7 +51,7 @@
 						<div class="modal-body" id="EditModalBody">
 						<input type="hidden" id="edit-modal-person-id" name="id" value=""/>
 						<input type="text" placeholder="Name" id="edit-modal-person-name" name="name"/>
-						<p id="EditFormError"></p>
+						<p id="EditModelErrorMessage"></p>
 						<div>
 							<a class="btn btn-default pull-right" id="PhoneNumberEdit">Edit Phone Number</a>
 						</div>
@@ -172,17 +174,13 @@
 						data : JSON.stringify({"id" : inputID, "name" : inputName}),
 						contentType: "application/json",
 						success : function(result){
-							if(result == null){
-								$("#EditFormError").prop("th:text","ERROR");
-							}
-							else{
-								$("#EditForm").submit();
-							}
+							$("#EditForm").submit();
 						},
 						error : function(){
-							alert("ERR");
+							$("#EditModelErrorMessage").html("<p> ERROR </p>");
+							$("#EditModelErrorMessage").prop("class","text-danger");
 						}
-					});
+				});
 				});
 			});
 		</script>

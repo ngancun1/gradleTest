@@ -15,6 +15,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+
 import com.example.gradleTest.Service.PersonService;
 import com.example.gradleTest.model.Person;
 import com.example.gradleTest.model.PersonRequest;
@@ -27,7 +29,7 @@ public class PersonController {
 	@Autowired
 	PersonService personService;
 	
-	@RequestMapping(value = "/All", method = RequestMethod.GET)
+	@RequestMapping(value = {"", "/", "/All"}, method = RequestMethod.GET)
 	public String getAllPerson(Model model) {
 		ArrayList<Person> listPerson = personService.getAll();
 		model.addAttribute("listPerson",listPerson);
@@ -75,31 +77,40 @@ public class PersonController {
 	}
 	
 	@RequestMapping(value = "/EditPhoneNumber", method = RequestMethod.POST)
-	public String editPerson(@ModelAttribute(value="phoneNumber") PhoneNumberRequest phone) {
+	public String editPerson(@ModelAttribute(value="phoneNumber") PhoneNumberRequest phone, RedirectAttributes redirectAttributes) {
 		personService.updatePhoneNumber(phone.getId(), phone.getNumber());
-		return "redirect:All";
+		redirectAttributes.addAttribute("id", phone.getPersonID());
+		return "redirect:toEditPhoneNumber";
 	}
 	
 	@RequestMapping(value = "/InsertPhoneNumber", method = RequestMethod.POST)
-	public String InsertPhoneNumber(@ModelAttribute(value="phoneNumber") PhoneNumberRequest phone) {
+	public String InsertPhoneNumber(@ModelAttribute(value="phoneNumber") PhoneNumberRequest phone, RedirectAttributes redirectAttributes) {
 		personService.insertPhoneNumber(phone.getPersonID(), phone.getNumber());
-		return "redirect:All";
+		redirectAttributes.addAttribute("id", phone.getPersonID());
+		return "redirect:toEditPhoneNumber";
 	}
 	
 	@RequestMapping(value = "/DeletePhoneNumber", method = RequestMethod.POST)
-	public String DeletePhoneNumber(@ModelAttribute(value="phoneNumber") PhoneNumberRequest phone) {
+	public String DeletePhoneNumber(@ModelAttribute(value="phoneNumber") PhoneNumberRequest phone, RedirectAttributes redirectAttributes) {
 		personService.deletePhoneNumber(phone.getId());
-		return "redirect:All";
+		redirectAttributes.addAttribute("id", phone.getPersonID());
+		return "redirect:toEditPhoneNumber";
 	}
 	
 	@RequestMapping(value = "/Insert",method = RequestMethod.POST)
-	public String Insert(@ModelAttribute(value="person") PersonRequest person) {
-		personService.insert(person.getName());
-		return "redirect:All";
+	public String Insert(@Validated @ModelAttribute(value="person") PersonRequest person, BindingResult result) {
+		if(result.hasErrors()) {
+			return null;
+		}
+		else {
+			personService.insert(person.getName());
+			return "redirect:All";
+		}
 	}
 	
 	@RequestMapping(value = "/ValidateEditPerson",method = RequestMethod.POST)
 	public @ResponseBody PersonRequest ValidatePerson(@Validated @RequestBody PersonRequest person, BindingResult result) {
+		System.out.println("Validated person");
 		if(result.hasErrors()) {
 			return null;
 		}
@@ -107,11 +118,11 @@ public class PersonController {
 	}
 	
 	@RequestMapping(value = "/ValidateEditPhoneNumber",method = RequestMethod.POST)
-	public @ResponseBody PhoneNumberRequest ValidatePhoneNumber(@Validated @RequestBody PhoneNumberRequest phoneNumber, BindingResult result) {
+	public @ResponseBody String ValidatePhoneNumber(@Validated @RequestBody PhoneNumberRequest phoneNumber, BindingResult result) {
 		if(result.hasErrors()) {
-			return null;
+			return "Something happened";
 		}
-		else return phoneNumber;
+		else return "SUCCESS";
 	}
 	/*
 	@RequestMapping(value = "/getOne", method = RequestMethod.GET)

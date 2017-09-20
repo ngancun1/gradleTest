@@ -7,35 +7,32 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.example.gradleTest.DAO.PersonDAO;
-import com.example.gradleTest.DAO.testingPersonDAO;
 import com.example.gradleTest.model.Person;
 import com.example.gradleTest.model.PhoneNumber;
 
 @Service
 public class PersonService {
+	
 	@Autowired
 	private PersonDAO personDAO;
 	
-	@Autowired
-	private testingPersonDAO testPersonDAO;
-	
 	public ArrayList<Person> getAll(){
-		return testPersonDAO.getAll();
+		return personDAO.getAll();
 	}
 	
 	@Transactional
 	public boolean insert(String name) {
-		return testPersonDAO.insert(name);
+		return personDAO.insert(name);
 	}
 	
 	@Transactional
 	public boolean delete(long id) {
-		return testPersonDAO.delete(id);
+		return personDAO.delete(id);
 	}
 	
 	@Transactional
 	public boolean update(long id, String name) {
-		return testPersonDAO.update(id, name);
+		return personDAO.update(id, name);
 	}
 	
 	public Person getOneByID(long id) {
@@ -50,14 +47,17 @@ public class PersonService {
 		return personDAO.getOnePhoneNumberByID(id);
 	}
 	
+	@Transactional
 	public boolean updatePhoneNumber(long id, String number) {
 		return personDAO.updatePhoneNumber(id, number);
 	}
 	
+	@Transactional
 	public boolean insertPhoneNumber(long personID, String number) {
 		return personDAO.insertPhoneNumber(personID, number);
 	}
 	
+	@Transactional
 	public boolean deletePhoneNumber(long id) {
 		return personDAO.deletePhoneNumber(id);
 	}

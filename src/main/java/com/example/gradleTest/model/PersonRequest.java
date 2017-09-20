@@ -1,6 +1,7 @@
 package com.example.gradleTest.model;
 
 import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Pattern;
 
 import org.hibernate.validator.constraints.NotEmpty;
 
@@ -11,7 +12,8 @@ public class PersonRequest {
 	@NotNull
 	private long id;
 	
-	@NotEmpty
+	@Name
+	@Pattern(regexp = "^[a-zA-Z0-9_ ]*$")
 	private String name;
 	
 	public long getId() {

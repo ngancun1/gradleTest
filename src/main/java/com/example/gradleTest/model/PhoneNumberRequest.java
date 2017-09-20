@@ -2,6 +2,7 @@ package com.example.gradleTest.model;
 
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
+import javax.validation.constraints.Size;
 
 import org.hibernate.validator.constraints.NotEmpty;
 
@@ -9,9 +10,8 @@ public class PhoneNumberRequest {
 	@NotNull
 	private long id;
 	
-	@Pattern(regexp="(^$|[0-9])",message = "Numberic only")
-	@NotNull
-	@NotEmpty(message = "Can not be empty")
+	@NotEmpty
+	@Pattern(regexp="(^$|[0-9])")
 	private String number;
 	
 	@NotNull

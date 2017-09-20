@@ -14,10 +14,10 @@ public class NameValidator implements ConstraintValidator<Name, String>{
 
 	@Override
 	public boolean isValid(String value, ConstraintValidatorContext context) {
-		if(value == null) {
+		if(value.equals("")) {
 			return false;
 		}
-		else if(value.matches("\\d{3}[-\\.\\s]\\d{3}[-\\.\\s]\\d{4}")) return false;
+		else if(value.matches("\\`|\\~|\\!|\\@|\\#|\\$|\\%|\\^|\\&|\\*|\\(|\\)|\\+|\\=|\\[|\\{|\\]|\\}|\\||\\\\|\\'|\\<|\\,|\\.|\\>|\\?|\\/|\\\"\"|\\;|\\:|\\s")) return false;
 		else return true;
 	}
 

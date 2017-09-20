@@ -94,7 +94,7 @@
   				e.preventDefault();
   				var id = $(this).attr('data-id');
   				$.ajax({
-  					type: "GET",
+  					type: "POST",
   					url : "/GetOnePhoneNumber",
   					data : 'id='+id,
   					datatype : "text",
@@ -115,7 +115,7 @@
   				e.preventDefault();
   				var id = $(this).attr('data-id');
   				$.ajax({
-  					type: "GET",
+  					type: "POST",
   					url : "/GetOnePhoneNumber",
   					data : 'id='+id,
   					datatype : "text",

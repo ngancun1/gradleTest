@@ -97,13 +97,18 @@
 				</div>
 			</form>
 		</div>
+		<div id="divRedirectForm" style="display: none;">
+			<form id="RedirectForm" th:action="@{/toEditPhoneNumber}" method="POST">
+				<input id="RedirectPersonID" name="id"/>
+			</form>
+		</div>
 		<script>
 			$(document).ready(function(){
 				$(".buttonEdit").click(function(e){
 					e.preventDefault();
 					var id = $(this).attr('data-id');
 					$.ajax({
-						type: "GET",
+						type: "POST",
 						url : "/GetOnePerson",
 						data : 'id=' + id,
 						datatype : "text",
@@ -125,7 +130,7 @@
 					e.preventDefault();
 					var id = $(this).data('id');
 					$.ajax({
-						type: "GET",
+						type: "POST",
 						url : "/GetOnePerson",
 						data : 'id=' + id,
 						datatype : "text",
@@ -146,18 +151,8 @@
 				$("#PhoneNumberEdit").click(function(e){
 					e.preventDefault();
 					var id = $('#edit-modal-person-id').val();
-					$.ajax({
-						type: "GET",
-						url : "/toEditPhoneNumber",
-						data : 'id='+id,
-						datatype : "text",
-						success : function(result){
-							window.location.href = '/toEditPhoneNumber?id='+id;
-						},
-						error : function(){
-							alert("AAAA");
-						}
-					});
+					$('#RedirectPersonID').val(id);
+					$('#RedirectForm').submit();
 				});
 			});
 		</script>

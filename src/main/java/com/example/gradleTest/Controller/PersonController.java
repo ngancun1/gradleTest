@@ -48,7 +48,7 @@ public class PersonController {
 		return "redirect:All";
 	}
 	
-	@RequestMapping(value = "/toEditPhoneNumber", method = RequestMethod.GET)
+	@RequestMapping(value = "/toEditPhoneNumber", method = RequestMethod.POST)
 	public String toEditPhoneNumber(Model model, @RequestParam("id") String id) {
 		ArrayList<PhoneNumber> tmp = personService.getPhoneNumberList(Long.parseLong(id));
 		model.addAttribute("listPhoneNumber",tmp);
@@ -56,7 +56,7 @@ public class PersonController {
 		return "/ViewPhoneNumber";
 	}
 	
-	@RequestMapping(value = "/GetOnePerson", method = RequestMethod.GET)
+	@RequestMapping(value = "/GetOnePerson", method = RequestMethod.POST)
 	public @ResponseBody PersonRequest GetOnePerson(@RequestParam("id") String id) {
 		long personID = Long.parseLong(id);
 		Person tmp = personService.getOneByID(personID);
@@ -66,7 +66,7 @@ public class PersonController {
 		return personR;
 	}
 	
-	@RequestMapping(value = "/GetOnePhoneNumber", method = RequestMethod.GET)
+	@RequestMapping(value = "/GetOnePhoneNumber", method = RequestMethod.POST)
 	public @ResponseBody PhoneNumberRequest GetOnePhoneNumber(@RequestParam("id") String id) {
 		long phoneNumberID = Long.parseLong(id);
 		PhoneNumber tmp = personService.getOnePhoneNumberByID(phoneNumberID);

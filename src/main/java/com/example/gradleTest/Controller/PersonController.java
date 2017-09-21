@@ -1,6 +1,7 @@
 package com.example.gradleTest.Controller;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import javax.validation.Valid;
 
@@ -8,6 +9,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
+import org.springframework.validation.FieldError;
+import org.springframework.validation.ObjectError;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -48,7 +51,7 @@ public class PersonController {
 		return "redirect:All";
 	}
 	
-	@RequestMapping(value = "/toEditPhoneNumber", method = RequestMethod.POST)
+	@RequestMapping(value = "/toEditPhoneNumber", method = RequestMethod.GET)
 	public String toEditPhoneNumber(Model model, @RequestParam("id") String id) {
 		ArrayList<PhoneNumber> tmp = personService.getPhoneNumberList(Long.parseLong(id));
 		model.addAttribute("listPhoneNumber",tmp);
@@ -109,18 +112,27 @@ public class PersonController {
 	}
 	
 	@RequestMapping(value = "/ValidateEditPerson",method = RequestMethod.POST)
-	public @ResponseBody PersonRequest ValidatePerson(@Validated @RequestBody PersonRequest person, BindingResult result) {
-		System.out.println("Validated person");
+	public @ResponseBody String ValidatePerson(@Validated @RequestBody PersonRequest person, BindingResult result) {
 		if(result.hasErrors()) {
-			return null;
+			StringBuilder errorMessage = new StringBuilder();
+			List<ObjectError> errors = result.getAllErrors();
+			for (ObjectError error : errors ) {
+		        errorMessage.append(error.getObjectName() + " - " + error.getDefaultMessage());
+		    }
+			return errorMessage.toString();
 		}
-		else return person;
+		else return "SUCCESS";
 	}
 	
 	@RequestMapping(value = "/ValidateEditPhoneNumber",method = RequestMethod.POST)
 	public @ResponseBody String ValidatePhoneNumber(@Validated @RequestBody PhoneNumberRequest phoneNumber, BindingResult result) {
 		if(result.hasErrors()) {
-			return "Something happened";
+			StringBuilder errorMessage = new StringBuilder();
+			List<ObjectError> errors = result.getAllErrors();
+			for (ObjectError error : errors ) {
+		        errorMessage.append(error.getObjectName() + " - " + error.getDefaultMessage());
+		    }
+			return errorMessage.toString();
 		}
 		else return "SUCCESS";
 	}

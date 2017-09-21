@@ -10,8 +10,8 @@ public class PhoneNumberRequest {
 	@NotNull
 	private long id;
 	
-	@NotEmpty
-	@Pattern(regexp="(^$|[0-9])")
+	@NotEmpty(message = "Can not be empty")
+	@Pattern(regexp = "^[0-9]*$", message = "numeric only")
 	private String number;
 	
 	@NotNull

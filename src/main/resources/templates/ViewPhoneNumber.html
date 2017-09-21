@@ -44,7 +44,7 @@
 		       		<input type="text" class="hidden" id="edit-modal-phone-number-id" name="id" value=""/>
 		       		<input type="text" placeholder="Number" id="edit-modal-phone-number-number" name="number" value=""/>
 		       		<input type="text" class="hidden" id="edit-modal-person-id" name="personID" th:value="${personID}"/>
-		       		<p id="EditFormError"></p>
+		       		<label id="errorMessage"></label>
 		       	</div>
 		       	<div class="modal-footer">
 		       		<button type="submit" id="SubmitEdit" class="btn btn-default" >Submit</button>
@@ -146,12 +146,16 @@
 					data : JSON.stringify({"id" : inputID, "number" : inputNumber, "personID" : inputPersonID}),
 					contentType: "application/json",
 					success : function(result){
-						console.log(result);
-						$("#PhoneEditForm").submit();
+						if("SUCCESS" == $.trim(result)){
+							$("#PhoneEditForm").submit();
+							alert("SUBBMITED");
+						}
+						else{
+							$("#errorMessage").text(result);
+						}
 					},
 					error : function(result){
-						alert("Error "+result.responseText);
-						console.log(JSON.stringify(result));
+						alert(result);
 					}
 				});
 			});

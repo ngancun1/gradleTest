@@ -12,8 +12,8 @@ public class PersonRequest {
 	@NotNull
 	private long id;
 	
-	@Name
-	@Pattern(regexp = "^[a-zA-Z0-9_ ]*$")
+	@NotEmpty(message = "Can not be empty")
+	@Pattern(regexp = "^[a-zA-Z0-9_ ]*$", message = "alphabetical characters only")
 	private String name;
 	
 	public long getId() {

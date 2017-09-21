@@ -98,7 +98,7 @@
 			</form>
 		</div>
 		<div id="divRedirectForm" style="display: none;">
-			<form id="RedirectForm" th:action="@{/toEditPhoneNumber}" method="POST">
+			<form id="RedirectForm" th:action="@{/toEditPhoneNumber}" method="GET">
 				<input id="RedirectPersonID" name="id"/>
 			</form>
 		</div>
@@ -165,17 +165,22 @@
 					$.ajax({
 						type: "POST",
 						url : "/ValidateEditPerson",
-						dataType : "json",
+						dataType : "text",
 						data : JSON.stringify({"id" : inputID, "name" : inputName}),
 						contentType: "application/json",
 						success : function(result){
-							$("#EditForm").submit();
+							if("SUCCESS" == $.trim(result)){
+								$("#EditForm").submit();
+								alert("SUBBMITED");
+							}
+							else{
+								alert(result);
+							}
 						},
-						error : function(){
-							$("#EditModelErrorMessage").html("<p> ERROR </p>");
-							$("#EditModelErrorMessage").prop("class","text-danger");
+						error : function(result){
+							alert(result);
 						}
-				});
+					});
 				});
 			});
 		</script>

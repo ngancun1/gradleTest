@@ -20,6 +20,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import com.example.gradleTest.Service.PersonCRUDService;
 import com.example.gradleTest.Service.PersonService;
 import com.example.gradleTest.model.Person;
 import com.example.gradleTest.model.PersonRequest;
@@ -32,22 +33,25 @@ public class PersonController {
 	@Autowired
 	PersonService personService;
 	
+	@Autowired
+	PersonCRUDService personCRUDService;
+	
 	@RequestMapping(value = {"", "/", "/All"}, method = RequestMethod.GET)
 	public String getAllPerson(Model model) {
-		ArrayList<Person> listPerson = personService.getAll();
+		List<Person> listPerson = personCRUDService.getAll();
 		model.addAttribute("listPerson",listPerson);
 		return "/getAll";
 	}
 	
 	@RequestMapping(value = "/Edit", method = RequestMethod.POST)
 	public String editPerson(@ModelAttribute(value="person1") PersonRequest person) {
-			personService.update(person.getId(), person.getName());
-			return "redirect:All";
+		personCRUDService.update(person);
+		return "redirect:All";
 	}
 	
 	@RequestMapping(value = "/Delete", method = RequestMethod.POST)
 	public String deletePerson(@ModelAttribute(value="person1") PersonRequest person){
-		personService.delete(person.getId());
+		personCRUDService.delete(person);
 		return "redirect:All";
 	}
 	
@@ -106,7 +110,7 @@ public class PersonController {
 			return null;
 		}
 		else {
-			personService.insert(person.getName());
+			personCRUDService.insert(person);
 			return "redirect:All";
 		}
 	}

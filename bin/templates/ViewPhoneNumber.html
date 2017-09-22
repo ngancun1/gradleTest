@@ -1,165 +1,110 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
-	<meta charset="ISO-8859-1"/>
-	<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"/>
-	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
-	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+<meta charset="ISO-8859-1" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<link rel="stylesheet"
+	href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" />
+<script
+	src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+<script
+	src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+<script type="text/javascript" charset="utf-8"
+	src="/js/PhoneNumber_ButtonDeleteHandler.js"></script>
+<script type="text/javascript" charset="utf-8"
+	src="/js/PhoneNumber_ButtonEditHandler.js"></script>
+<script type="text/javascript" charset="utf-8"
+	src="/js/PhoneNumber_ButtonSubmitEditHandler.js"></script>
+<script type="text/javascript" charset="utf-8"
+	src="/js/PhoneNumber_ButtonSubmitInsertHandler.js"></script>
 <title>Insert title here</title>
 </head>
 <body>
 	<div>
-	    <p style="font-size:30px" align="center">TABLE OF CONTENT</p>
-	    <table class="table table-striped">
-	        <thead>
-	            <tr>
-	                <td>ID</td>
-	                <td>phoneNumber</td>
-	                <td>Action</td>
-	            </tr>
-	        </thead>
-	        <tbody>
-	            <th:block th:each="phoneNumber : ${listPhoneNumber}">
-	                <tr>
-	                    <td th:text = "${phoneNumber.id}"></td>
-	                    <td th:text = "${phoneNumber.number}"></td>
-	                    <td>
-	                    	<a class="buttonEdit" data-toggle="modal" data-target="#EditModal" th:attr="data-id=${phoneNumber.id}">Edit</a>
-	                    	<a class="buttonDelete" data-toggle="modal" data-target="#DeleteModal" th:attr="data-id=${phoneNumber.id}">Delete</a>
-	                    </td>
-	                </tr>
-	            </th:block>
-	        </tbody>
-	    </table>
-	    <a class="buttonInsert btn btn-default" data-toggle="modal" data-target="#InsertModal" th:attr="data-id=${personID}">Insert</a>
+		<p style="font-size: 30px" align="center">TABLE OF CONTENT</p>
+		<table class="table table-striped">
+			<thead>
+				<tr>
+					<td>ID</td>
+					<td>phoneNumber</td>
+					<td>Action</td>
+				</tr>
+			</thead>
+			<tbody>
+				<th:block th:each="phoneNumber : ${listPhoneNumber}">
+					<tr>
+						<td th:text="${phoneNumber.id}"></td>
+						<td th:text="${phoneNumber.number}"></td>
+						<td><a class="buttonEdit" data-toggle="modal"
+							data-target="#EditModal" th:attr="data-id=${phoneNumber.id}">Edit</a>
+							<a class="buttonDelete" data-toggle="modal"
+							data-target="#DeleteModal" th:attr="data-id=${phoneNumber.id}">Delete</a>
+						</td>
+					</tr>
+				</th:block>
+			</tbody>
+		</table>
+		<a class="buttonInsert btn btn-default" data-toggle="modal"
+			data-target="#InsertModal" th:attr="data-id=${personID}">Insert</a>
 	</div>
-	<div id ="EditModal" class="modal fade" role="dialog">
-		<form class="modal-dialog" th:action="@{/EditPhoneNumber}" th:object="${phoneNumber}" method="POST" id="PhoneEditForm">
-	   		<div class="modal-content">
-	     		<div class="modal-header">
-	     			<button type="button" class="close" data-dismiss="modal">&times;</button>
-	     		</div>
-		       	<div class="modal-body">
-		       		<input type="text" class="hidden" id="edit-modal-phone-number-id" name="id" value=""/>
-		       		<input type="text" placeholder="Number" id="edit-modal-phone-number-number" name="number" value=""/>
-		       		<input type="text" class="hidden" id="edit-modal-person-id" name="personID" th:value="${personID}"/>
-		       		<label id="errorMessage"></label>
-		       	</div>
-		       	<div class="modal-footer">
-		       		<button type="submit" id="SubmitEdit" class="btn btn-default" >Submit</button>
-		       		<button type="button" class = "btn btn-default" data-dismiss="modal">Cancel</button>
-		       	</div>
-  			</div>
+	<div id="EditModal" class="modal fade" role="dialog">
+		<form class="modal-dialog" th:action="@{/EditPhoneNumber}"
+			th:object="${phoneNumber}" method="POST" id="PhoneEditForm">
+			<div class="modal-content">
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal">&times;</button>
+				</div>
+				<div class="modal-body">
+					<input type="text" class="hidden" id="edit-modal-phone-number-id" name="id" value="" /> 
+					<input type="text" placeholder="Number" id="edit-modal-phone-number-number" name="number" value="" /> 
+					<input type="text" class="hidden" id="edit-modal-person-id" name="personID" th:value="${personID}" /> 
+					<label id="errorMessage"></label>
+				</div>
+				<div class="modal-footer">
+					<button type="submit" id="SubmitEdit" class="btn btn-default">Submit</button>
+					<button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+				</div>
+			</div>
 		</form>
 	</div>
-	<div id ="DeleteModal" class="modal fade" role="dialog">
-		<form class="modal-dialog" th:action="@{/DeletePhoneNumber}" th:object="${phoneNumber}" method="POST">
-	   		<div class="modal-content">
-	     		<div class="modal-header">
-	     			<button type="button" class="close" data-dismiss="modal">&times;</button>
-	     		</div>
-		       	<div class="modal-body">
-		       		<input type="text" class="hidden" id="delete-modal-phone-number-id" name="id" value=""/>
-		       		<input type="text" placeholder="Number" id="delete-modal-phone-number-number" name="number" value=""/>
-		       	</div>
-		       	<div class="modal-footer">
-		       		<button type="submit" id="SubmitDelete" class="btn btn-default" >Submit</button>
-		       		<button type="button" class = "btn btn-default" data-dismiss="modal">Cancel</button>
-		       	</div>
-  			</div>
+	<div id="DeleteModal" class="modal fade" role="dialog">
+		<form class="modal-dialog" th:action="@{/DeletePhoneNumber}"
+			th:object="${phoneNumber}" method="POST">
+			<div class="modal-content">
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal">&times;</button>
+				</div>
+				<div class="modal-body">
+					<input type="text" class="hidden" id="delete-modal-phone-number-id"
+						name="id" value="" /> <input type="text" placeholder="Number"
+						id="delete-modal-phone-number-number" name="number" value="" />
+				</div>
+				<div class="modal-footer">
+					<button type="submit" id="SubmitDelete" class="btn btn-default">Submit</button>
+					<button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+				</div>
+			</div>
 		</form>
 	</div>
-	<div id ="InsertModal" class="modal fade" role="dialog">
-		<form class="modal-dialog" th:action="@{/InsertPhoneNumber}" th:object="${phoneNumber}" id="InsertPhoneNumberForm" method="POST">
-	   		<div class="modal-content">
-	     		<div class="modal-header">
-	     			<button type="button" class="close" data-dismiss="modal">&times;</button>
-	     		</div>
-		       	<div class="modal-body">
-		       		<input type="text" class="hidden" id="insert-modal-phone-number-id" name="id" value="0"/>
-		       		<input type="text" placeholder="Number" id="insert-modal-phone-number-number" name="number" value=""/>
-		       		<input type="text" class="hidden" id="insert-modal-person-id" name="personID" th:value="${personID}"/>
-		       	</div>
-		       	<div class="modal-footer">
-		       		<button type="submit" id="SubmitInsert" class="btn btn-default" >Submit</button>
-		       		<button type="button" class = "btn btn-default" data-dismiss="modal">Cancel</button>
-		       	</div>
-  			</div>
+	<div id="InsertModal" class="modal fade" role="dialog">
+		<form class="modal-dialog" th:action="@{/InsertPhoneNumber}"
+			th:object="${phoneNumber}" id="InsertPhoneNumberForm" method="POST">
+			<div class="modal-content">
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal">&times;</button>
+				</div>
+				<div class="modal-body">
+					<input type="text" class="hidden" id="insert-modal-phone-number-id" name="id" value="0" /> 
+					<input type="text" placeholder="Number" id="insert-modal-phone-number-number" name="number" value="" /> 
+					<input	type="text" class="hidden" id="insert-modal-person-id" name="personID" th:value="${personID}" />
+					<label id="insertErrorMessage"></label>
+				</div>
+				<div class="modal-footer">
+					<button type="submit" id="SubmitInsert" class="btn btn-default">Submit</button>
+					<button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+				</div>
+			</div>
 		</form>
 	</div>
-	<script>
-  		$(document).ready(function(){
-  			$(".buttonEdit").click(function(e){
-  				e.preventDefault();
-  				var id = $(this).attr('data-id');
-  				$.ajax({
-  					type: "POST",
-  					url : "/GetOnePhoneNumber",
-  					data : 'id='+id,
-  					datatype : "text",
-  					success : function(result){
-  						$('#edit-modal-phone-number-id').val(result.id);
-  						$('#edit-modal-phone-number-number').val(result.number);
-  					},
-  					error : function(){
-  						alert("ERROR");
-  					}
-  				});
-  			});
-  		});
-    </script>
-    <script>
-  		$(document).ready(function(){
-  			$(".buttonDelete").click(function(e){
-  				e.preventDefault();
-  				var id = $(this).attr('data-id');
-  				$.ajax({
-  					type: "POST",
-  					url : "/GetOnePhoneNumber",
-  					data : 'id='+id,
-  					datatype : "text",
-  					success : function(result){
-  						$('#delete-modal-phone-number-id').val(result.id);
-  						$('#delete-modal-phone-number-number').val(result.number);
-  						$('#delete-modal-phone-number-number').prop('readonly', 'readonly');
-  					},
-  					error : function(){
-  						alert("ERROR");
-  					}
-  				});
-  			});
-  		});
-    </script>
-    <script>
-		$(document).ready(function(){
-			$("#SubmitEdit").click(function(e){
-				e.preventDefault();
-				console.log("it ran here");
-				var inputID = $("#edit-modal-phone-number-id").val();
-				var inputNumber = $("#edit-modal-phone-number-number").val();
-				var inputPersonID = $("#edit-modal-person-id").val();
-				$.ajax({
-					type: "POST",
-					url : "/ValidateEditPhoneNumber",
-					dataType : "text",
-					data : JSON.stringify({"id" : inputID, "number" : inputNumber, "personID" : inputPersonID}),
-					contentType: "application/json",
-					success : function(result){
-						if("SUCCESS" == $.trim(result)){
-							$("#PhoneEditForm").submit();
-							alert("SUBBMITED");
-						}
-						else{
-							$("#errorMessage").text(result);
-						}
-					},
-					error : function(result){
-						alert(result);
-					}
-				});
-			});
-		});
-	</script>
 </body>
 </html>

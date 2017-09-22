@@ -7,7 +7,7 @@ import javax.validation.constraints.Size;
 import org.hibernate.validator.constraints.NotEmpty;
 
 public class PhoneNumberRequest {
-	@NotNull
+
 	private long id;
 	
 	@NotEmpty(message = "Can not be empty")

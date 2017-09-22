@@ -1,188 +1,131 @@
 <!DOCTYPE html>
-<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
-	<head>
-		<title>yabai yabai</title>
-		<meta charset="UTF-8"/>
-		<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"/>
-		<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
-		<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
-	</head>
-	<body>
-		<div align="center" style="width=:'80%'">
-			<p style="font-size:30px" align="center">TABLE OF CONTENT</p>
-			<table class="table table-striped">
-				<thead>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:th="http://www.thymeleaf.org">
+<head>
+<title>yabai yabai</title>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<link rel="stylesheet"
+	href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" />
+<script
+	src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+<script
+	src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+<script type="text/javascript" charset="utf-8"
+	src="/js/Person_ButtonDeleteHandler.js"></script>
+<script type="text/javascript" charset="utf-8"
+	src="/js/Person_ButtonEditHandler.js"></script>
+<script type="text/javascript" charset="utf-8"
+	src="/js/Person_ButtonPhoneNumberEditHandler.js"></script>
+<script type="text/javascript" charset="utf-8"
+	src="/js/Person_ButtonSubmitEditHandler.js"></script>
+<script type="text/javascript" charset="utf-8"
+	src="/js/Person_ButtonInsertHandler.js"></script>
+</head>
+<body>
+	<div align="center" style="width =: '80%'">
+		<p style="font-size: 30px" align="center">TABLE OF CONTENT</p>
+		<table class="table table-striped">
+			<thead>
+				<tr>
+					<td style="width: 100px">ID</td>
+					<td style="width: 500px">Name</td>
+					<td style="width: 400px">Phone Number</td>
+					<td>Action</td>
+				</tr>
+			</thead>
+			<tbody>
+				<th:block th:each="person : ${listPerson}">
 					<tr>
-						<td style="width:100px">ID</td>
-						<td style="width:500px">Name</td>
-						<td style="width:400px">Phone Number</td>
-						<td>Action</td>
+						<td th:text="${person.id}"></td>
+						<td th:text="${person.name}"></td>
+						<td>
+							<ul style="list-style-type: none; padding: 0px"
+								th:each="phoneNumber : ${person.phoneNumber}">
+								<li th:text="${phoneNumber.number}"></li>
+							</ul>
+						</td>
+						<td><a class="buttonEdit" data-toggle="modal"
+							data-target="#EditModal" th:attr="data-id=${person.id}">Edit</a>
+							<a class="buttonDelete" data-toggle="modal"
+							data-target="#DeleteModal" th:attr="data-id=${person.id}">Delete</a>
+						</td>
 					</tr>
-				</thead>
-				<tbody>
-					<th:block th:each="person : ${listPerson}">
-						<tr>
-							<td th:text = "${person.id}"></td>
-							<td th:text = "${person.name}"></td>
-							<td >
-								<ul style="list-style-type: none; padding:0px" th:each="phoneNumber : ${person.phoneNumber}">
-									<li th:text="${phoneNumber.number}"></li>
-								</ul>
-							</td>
-							<td>
-								<a class="buttonEdit" data-toggle="modal" data-target="#EditModal" th:attr="data-id=${person.id}">Edit</a>
-								<a class="buttonDelete" data-toggle="modal" data-target="#DeleteModal" th:attr="data-id=${person.id}">Delete</a>
-							</td>
-						</tr>
-					</th:block>
-				</tbody>
-			</table>
-		</div>
-		<div class="container" align="center">
-			<a class="buttonInsert btn btn-default pull-left" data-toggle="modal" data-target="#InsertModal">Insert</a>
-		</div>
-		<div id ="EditModal" class="modal fade" role="dialog">
-			<form class="modal-dialog" th:action="@{/Edit}" th:object="${person1}" method="POST" id="EditForm">
-				<div class="modal-content">
-					<div class="modal-header">
-						<button type="button" class="close" data-dismiss="modal">&times;</button>
-					</div>
-						<div class="modal-body" id="EditModalBody">
-						<input type="hidden" id="edit-modal-person-id" name="id" value=""/>
-						<input type="text" placeholder="Name" id="edit-modal-person-name" name="name"/>
-						<p id="EditModelErrorMessage"></p>
-						<div>
-							<a class="btn btn-default pull-right" id="PhoneNumberEdit">Edit Phone Number</a>
-						</div>
-					</div>
-					<div class="modal-footer">
-						<button type="submit" id="SubmitEdit" class="btn btn-default" >Submit</button>
-						<button type="button" class = "btn btn-default" data-dismiss="modal">Cancel</button>
+				</th:block>
+			</tbody>
+		</table>
+	</div>
+	<div class="container" align="center">
+		<a class="buttonInsert btn btn-default pull-left" data-toggle="modal"
+			data-target="#InsertModal">Insert</a>
+	</div>
+	<div id="EditModal" class="modal fade" role="dialog">
+		<form class="modal-dialog" th:action="@{/Edit}" th:object="${person1}"
+			method="POST" id="EditForm">
+			<div class="modal-content">
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal">&times;</button>
+				</div>
+				<div class="modal-body" id="EditModalBody">
+					<input type="hidden" id="edit-modal-person-id" name="id" value="" />
+					<input type="text" placeholder="Name" id="edit-modal-person-name"
+						name="name" />
+					<p id="EditModelErrorMessage"></p>
+					<div>
+						<a class="btn btn-default pull-right" id="PhoneNumberEdit">Edit
+							Phone Number</a>
 					</div>
 				</div>
-			</form>
-		</div>
-		<div id ="DeleteModal" class="modal fade" role="dialog">
-			<form class="modal-dialog" th:action="@{/Delete}" th:object="${person1}" method="POST">
-				<div class="modal-content">
-					<div class="modal-header">
-						<button type="button" class="close" data-dismiss="modal">&times;</button>
-					</div>
-					<div class="modal-body">
-						<input type="text" class="hidden" id="delete-modal-person-id" name="id" value=""/>
-						<input type="text" placeholder="Name" id="delete-modal-person-name" name="name" value=""/>
-					</div>
-					<div class="modal-footer">
-						<button type="submit" id="SubmitDelete" class="btn btn-danger btn-default" >Delete</button>
-						<button type="button" class = "btn cancelbtn" data-dismiss="modal">Cancel</button>
-					</div>
+				<div class="modal-footer">
+					<button type="submit" id="SubmitEdit" class="btn btn-default">Submit</button>
+					<button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
 				</div>
-			</form>
-		</div>
-		<div id ="InsertModal" class="modal fade" role="dialog">
-			<form class="modal-dialog" th:action="@{/Insert}" th:object="${person}" method="POST">
-				<div class="modal-content">
-					<div class="modal-header">
-						<button type="button" class="close" data-dismiss="modal">&times;</button>
-					</div>
-					<div class="modal-body">
-						<input type="hidden" id="edit-modal-person-id" name="id" value="0"/>
-						<input type="text" placeholder="Name" id="edit-modal-person-name" name="name" value=""/>
-					</div>
-					<div class="modal-footer">
-						<button type="submit" id="SubmitEdit" class="btn btn-default" >Submit</button>
-						<button type="button" class = "btn btn-default" data-dismiss="modal">Cancel</button>
-					</div>
+			</div>
+		</form>
+	</div>
+	<div id="DeleteModal" class="modal fade" role="dialog">
+		<form class="modal-dialog" th:action="@{/Delete}"
+			th:object="${person1}" method="POST">
+			<div class="modal-content">
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal">&times;</button>
 				</div>
-			</form>
-		</div>
-		<div id="divRedirectForm" style="display: none;">
-			<form id="RedirectForm" th:action="@{/toEditPhoneNumber}" method="GET">
-				<input id="RedirectPersonID" name="id"/>
-			</form>
-		</div>
-		<script>
-			$(document).ready(function(){
-				$(".buttonEdit").click(function(e){
-					e.preventDefault();
-					var id = $(this).attr('data-id');
-					$.ajax({
-						type: "POST",
-						url : "/GetOnePerson",
-						data : 'id=' + id,
-						datatype : "text",
-						success : function(result){
-							$('#edit-modal-person-id').val(result.id);
-							$('#edit-modal-person-name').val(result.name);
-							$('#PhoneNumberEdit').prop('th:attr','data-id='+id);
-						},
-						error : function(){
-							alert("ERROR");
-						}
-					});
-				});
-			});
-		</script>
-		<script>
-			$(document).ready(function(){
-				$(".buttonDelete").click(function(e){
-					e.preventDefault();
-					var id = $(this).data('id');
-					$.ajax({
-						type: "POST",
-						url : "/GetOnePerson",
-						data : 'id=' + id,
-						datatype : "text",
-						success : function(result){
-							$('#delete-modal-person-id').val(result.id);
-							$('#delete-modal-person-name').val(result.name);
-							$('#delete-modal-person-name').prop('readonly', 'readonly')
-						},
-						error : function(){
-							alert("ERROR");
-						}
-					});
-				});
-			});
-		</script>
-		<script>
-			$(document).ready(function(){
-				$("#PhoneNumberEdit").click(function(e){
-					e.preventDefault();
-					var id = $('#edit-modal-person-id').val();
-					$('#RedirectPersonID').val(id);
-					$('#RedirectForm').submit();
-				});
-			});
-		</script>
-		<script>
-			$(document).ready(function(){
-				$("#SubmitEdit").click(function(e){
-					e.preventDefault();
-					var inputID = $("#edit-modal-person-id").val();
-					var inputName = $("#edit-modal-person-name").val();
-					$.ajax({
-						type: "POST",
-						url : "/ValidateEditPerson",
-						dataType : "text",
-						data : JSON.stringify({"id" : inputID, "name" : inputName}),
-						contentType: "application/json",
-						success : function(result){
-							if("SUCCESS" == $.trim(result)){
-								$("#EditForm").submit();
-								alert("SUBBMITED");
-							}
-							else{
-								alert(result);
-							}
-						},
-						error : function(result){
-							alert(result);
-						}
-					});
-				});
-			});
-		</script>
-	</body>
+				<div class="modal-body">
+					<input type="text" class="hidden" id="delete-modal-person-id"
+						name="id" value="" /> <input type="text" placeholder="Name"
+						id="delete-modal-person-name" name="name" value="" />
+				</div>
+				<div class="modal-footer">
+					<button type="submit" id="SubmitDelete"
+						class="btn btn-danger btn-default">Delete</button>
+					<button type="button" class="btn cancelbtn" data-dismiss="modal">Cancel</button>
+				</div>
+			</div>
+		</form>
+	</div>
+	<div id="InsertModal" class="modal fade" role="dialog">
+		<form class="modal-dialog" th:action="@{/Insert}"
+			th:object="${person}" method="POST" id="InsertForm">
+			<div class="modal-content">
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal">&times;</button>
+				</div>
+				<div class="modal-body">
+					<input type="hidden" id="insert-modal-person-id" name="id" value="0" />
+					<input type="text" placeholder="Name" id="insert-modal-person-name"
+						name="name" value="" />
+				</div>
+				<div class="modal-footer">
+					<button type="submit" id="SubmitInsert" class="btn btn-default">Submit</button>
+					<button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+				</div>
+			</div>
+		</form>
+	</div>
+	<div id="divRedirectForm" style="display: none;">
+		<form id="RedirectForm" th:action="@{/toEditPhoneNumber}" method="GET">
+			<input id="RedirectPersonID" name="id" />
+		</form>
+	</div>
+</body>
 </html>

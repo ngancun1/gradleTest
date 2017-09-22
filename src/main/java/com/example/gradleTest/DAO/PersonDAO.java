@@ -131,8 +131,9 @@ public class PersonDAO {
 	}
 	
 	public boolean insertPhoneNumber(long personID, String number) {
-		PhoneNumber tmp = getOnePhoneNumberByID(personID);
+		PhoneNumber tmp = new PhoneNumber();
 		tmp.setNumber(number);
+		tmp.setPerson(getOneByID(personID));
 		try {
 			entityManager.persist(tmp);
 			return true;
